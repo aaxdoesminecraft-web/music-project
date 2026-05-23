@@ -22,19 +22,36 @@ export class DashboardService {
     const recentTracks = await this.catalog.getTracksByIds(
       recentRecords.map((record) => record.providerTrackId),
     );
+    const recentTrackByProviderId = new Map(
+      recentTracks.map((track) => [track.providerTrackId, track] as const),
+    );
+    const orderedRecentTracks = recentRecords.flatMap((record) => {
+      const track = recentTrackByProviderId.get(record.providerTrackId);
+      return track ? [track] : [];
+    });
+
+    console.info("[recently played] dashboard hydration", {
+      recordCount: recentRecords.length,
+      resolvedTrackCount: recentTracks.length,
+      orderedTrackCount: orderedRecentTracks.length,
+      providerTrackIds: recentRecords.map((record) => record.providerTrackId),
+      resolvedTitles: orderedRecentTracks.map((track) => track.title),
+    });
 
     const playerItems =
       queue.length > 0
         ? queue
         : this.playerService.createPlaybackItems(
-            recentTracks.length > 0 ? recentTracks : recommendationResult.items,
+            orderedRecentTracks.length > 0
+              ? orderedRecentTracks
+              : recommendationResult.items,
             favoriteTrackIds,
           );
 
     return {
       greeting: "Good Evening",
       subtitle: "Ready to find your vibe?",
-      recentlyPlayed: recentTracks.map((track) =>
+      recentlyPlayed: orderedRecentTracks.map((track) =>
         this.toCard({ ...track, track }, "/library"),
       ),
       forYou: recommendationResult.items.map((track) =>

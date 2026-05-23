@@ -774,6 +774,12 @@ button {
 		linear-gradient(180deg, rgba(10, 16, 33, 0.82), rgba(7, 13, 28, 0.98));
 }
 
+.discovery-mapImage {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
 .discovery-wave {
 	position: absolute;
 	inset: 18% 5% 22%;

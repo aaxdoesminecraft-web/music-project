@@ -115,12 +115,11 @@ export class JamendoAdapter implements MusicCatalogAdapter {
       return [];
     }
 
-    const response = await this.getList<JamendoTrack>("tracks", {
-      id: providerTrackIds.join(","),
-      limit: String(providerTrackIds.length),
-    });
+    const tracks = await Promise.all(
+      providerTrackIds.map((providerTrackId) => this.getTrack(providerTrackId)),
+    );
 
-    return response.results.map(mapTrack);
+    return tracks.flatMap((track) => (track ? [track] : []));
   }
 
   async getTracksByArtist(

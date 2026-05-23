@@ -125,6 +125,12 @@ export class SupabaseUserLibraryRepository implements UserLibraryRepository {
       limit,
     });
 
+    console.info("[recently played] fetched rows", {
+      userId,
+      count: rows.length,
+      providerTrackIds: rows.map((row) => row.provider_track_id),
+    });
+
     return rows.map(mapRecentlyPlayed);
   }
 
@@ -135,6 +141,12 @@ export class SupabaseUserLibraryRepository implements UserLibraryRepository {
       provider: record.provider,
       provider_track_id: record.providerTrackId,
       played_at: record.playedAt,
+    });
+
+    console.info("[recently played] inserted row", {
+      userId: record.userId,
+      providerTrackId: record.providerTrackId,
+      playedAt: record.playedAt,
     });
   }
 
