@@ -7,7 +7,6 @@ const navItems = [
   { label: "Dashboard", href: "/", icon: "◫" },
   { label: "Library", href: "/library", icon: "♫" },
   { label: "Browse", href: "/explore", icon: "◎" },
-  { label: "Settings", href: "/settings", icon: "⚙" },
 ];
 
 export function DashboardSidebar() {

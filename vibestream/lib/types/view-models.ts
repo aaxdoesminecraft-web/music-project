@@ -67,6 +67,7 @@ export type DiscoveryZoneViewModel = {
   description: string;
   x: number;
   y: number;
+  mapCoords?: string;
   accentColor: string;
   previewTrackIds: AppTrackId[];
   previewTracks?: AppTrack[];

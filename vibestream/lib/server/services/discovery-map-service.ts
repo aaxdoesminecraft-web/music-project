@@ -48,6 +48,7 @@ export class DiscoveryMapService {
         description: zone.description,
         x: zone.x,
         y: zone.y,
+        mapCoords: this.toMapCoords(zone.x, zone.y),
         accentColor: zone.accentColor,
         previewTrackIds: zoneResults[index].items.map((track) => track.id),
         previewTracks: zoneResults[index].items,
@@ -61,5 +62,15 @@ export class DiscoveryMapService {
         isPlaying: true,
       }),
     };
+  }
+
+  private toMapCoords(xPercent: number, yPercent: number) {
+    const imageWidth = 1200;
+    const imageHeight = 700;
+    const centerX = Math.round((xPercent / 100) * imageWidth);
+    const centerY = Math.round((yPercent / 100) * imageHeight);
+    const radius = 42;
+
+    return `${centerX},${centerY},${radius}`;
   }
 }
